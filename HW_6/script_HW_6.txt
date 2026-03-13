@@ -1,0 +1,17 @@
+#!/bin/bash
+secret=$(( (RANDOM % 100) + 1 ))
+max_try=5
+echo "Вкажіть число  від 1 до 100 у вас є $max_try спроб."
+for (( i=1; i<=max_try; i++ ))
+ do
+  read -p "Спроба $i. Введіть ваше число: " guess
+   if [[ $guess -eq $secret ]]; then
+       echo "Ви вгадали правильне число."
+       exit 0
+   elif [[ $guess -lt $secret ]]; then
+       echo "Занадто низько (ваше число більше)."
+   else
+       echo "Занадто високо (ваше число менше)."
+   fi
+ done
+   echo "Правильним числом було $secret."
