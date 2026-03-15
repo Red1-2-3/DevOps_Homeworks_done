@@ -1,0 +1,8 @@
+#!/bin/bash
+PERCENT=$1
+
+USE=$(df / | grep -o '[0-9]\+%' | tr -d '%')
+
+if [ "$USE" -gt "$PERCENT" ]; then
+    echo "УВАГА: $USE%" >> /var/log/disk.log
+fi
