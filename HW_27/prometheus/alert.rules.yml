@@ -1,0 +1,28 @@
+groups:
+  - name: hw_alerts
+    rules:
+
+      - alert: HighCpuLoad
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 80
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Алярм! Завантаженість CPU більше 80% на {{ $labels.instance }}"
+
+
+      - alert: LowDiskSpace
+        expr: (node_filesystem_free_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Увага! Вільного місця на диску менше 15%!"
+
+      - alert: TargetDown
+        expr: up == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Критично! Моніторинг втратив зв'язок із сервісом {{ $labels.job }}!"
